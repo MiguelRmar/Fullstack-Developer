@@ -23,10 +23,12 @@ import org.springframework.web.bind.annotation.CrossOrigin;
  */
 @RequestMapping("/session")
 @RestController
+@CrossOrigin(origins = "*",methods= {RequestMethod.GET,RequestMethod.POST})
 public class EmployeeAPIController {
     
     @Autowired
     EmployeeServices esi = new EmployeeServices();
+    
     
     @RequestMapping(method = RequestMethod.GET, path = "/{id}")
     public ResponseEntity<?> verifyLogin(@PathVariable("id") int id)
@@ -35,6 +37,7 @@ public class EmployeeAPIController {
         return new ResponseEntity<>(emp, HttpStatus.ACCEPTED);
     }
     
+
     @RequestMapping(method = RequestMethod.GET, path = "/employees")
     public ResponseEntity<?> verifyLogin()
             throws InterruptedException, EmployeePersistenceException {
@@ -42,6 +45,7 @@ public class EmployeeAPIController {
         return new ResponseEntity<>(emp, HttpStatus.ACCEPTED);
     }
     
+
     @RequestMapping(method = RequestMethod.POST , path = "/createEmployee")
     public ResponseEntity<?> createEmployee(@RequestBody Employee emp){
         try {
