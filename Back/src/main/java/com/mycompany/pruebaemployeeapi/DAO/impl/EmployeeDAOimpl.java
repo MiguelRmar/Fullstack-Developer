@@ -10,6 +10,8 @@ import com.mycompany.pruebaemployeeapi.exceptions.EmployeePersistenceException;
 import com.mycompany.pruebaemployeeapi.model.Employee;
 import com.mycompany.pruebaemployeeapi.persistence.EmployeeDB;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -21,12 +23,22 @@ public class EmployeeDAOimpl implements EmployeeDAO{
     
     @Override
     public Employee consultEmployee(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            return edb.consultEmployee(id);
+        } catch (EmployeePersistenceException ex) {
+            Logger.getLogger(EmployeeDAOimpl.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }  
     }
     
     @Override
     public List<Employee> consultEmployees() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            return edb.consultEmployees();
+        } catch (EmployeePersistenceException ex) {
+            Logger.getLogger(EmployeeDAOimpl.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
     }
 
     @Override

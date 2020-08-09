@@ -14,17 +14,18 @@ import java.util.List;
 public class Employee {
     
     private String fullname;
-    private String function;
+    private String position;
     private int identificacion;
-    private List<Employee> employees;
+    private int boss;
 
     public Employee(){};
             
     
-    public Employee(int id , String fullname, String function) {
+    public Employee(int id , String fullname, String function,int Boss) {
         this.fullname = fullname;
-        this.function = function;
+        this.position = function;
         this.identificacion = id;
+        this.boss=Boss;
     }
 
     public String getFullname() {
@@ -35,21 +36,22 @@ public class Employee {
         this.fullname = fullname;
     }
 
-    public String getFunction() {
-        return function;
+    public String getPosition() {
+        return position;
     }
 
-    public void setFunction(String function) {
-        this.function = function;
+    public void setPosition(String position) {
+        this.position = position;
     }
 
-    public List<Employee> getEmployees() {
-        return employees;
+    public int getBoss() {
+        return boss;
     }
 
-    public void setEmployees(List<Employee> employees) {
-        this.employees = employees;
+    public void setBoss(int boss) {
+        this.boss = boss;
     }
+
 
     public int getIdentificacion() {
         return identificacion;
@@ -61,8 +63,10 @@ public class Employee {
 
     @Override
     public String toString() {
-        return "Employee{" + "fullname=" + fullname + ", function=" + function + ", identificacion=" + identificacion + ", employees=" + employees + '}';
+        return "Employee{" + "fullname=" + fullname + ", position=" + position + ", identificacion=" + identificacion + ", boss=" + boss + '}';
     }
+
+
 
 
 

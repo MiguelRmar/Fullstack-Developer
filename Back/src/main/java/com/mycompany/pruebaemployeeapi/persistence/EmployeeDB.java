@@ -8,6 +8,8 @@ package com.mycompany.pruebaemployeeapi.persistence;
 import com.mycompany.pruebaemployeeapi.exceptions.EmployeePersistenceException;
 import com.mycompany.pruebaemployeeapi.model.Employee;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 /**
@@ -45,7 +47,8 @@ public class EmployeeDB {
             ResultSet mnid = pstmt2.executeQuery();
             mnid.next();
             int idmn = mnid.getInt("count") + 1;
-            String SQL = null ;
+            String SQL = "INSERT INTO public.\"Employee\" (\"IdEmployee\",fullname,boss,function)"
+                    + "VALUES ('" + employee.getIdentificacion() + "','" + employee.getFullname()+ "','" + employee.getBoss()+ "','" + employee.getPosition()+ "');";
             
             pstmt = c.prepareStatement(SQL, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             res = pstmt.execute();   
@@ -60,7 +63,7 @@ public class EmployeeDB {
     }
     
     public Employee consultEmployee(int id)throws EmployeePersistenceException{
-        String SQL = "SELECT * FROM public.\"Employee\" WHERE IdEmployee = ? ";
+        String SQL = "SELECT * FROM public.\"Employee\" WHERE \"IdEmployee\" = ? ";
         Employee em = new Employee();
         try {
             if (c == null || c.isClosed()) {
@@ -72,7 +75,7 @@ public class EmployeeDB {
             ResultSet rs = pstmt.executeQuery();
             rs.next();
             if (rs.absolute(1)) {
-                em = new Employee(rs.getInt("IdEmployee"),rs.getString("fullname"),rs.getString("function"));
+                em = new Employee(rs.getInt("IdEmployee"),rs.getString("fullname"),rs.getString("function"),rs.getInt("boss"));
                 /* c.close(); */
                 pstmt.close();
                 rs.close();
@@ -81,5 +84,42 @@ public class EmployeeDB {
             e.printStackTrace();
         }
         return em;
+    }
+    
+    public List<Employee> consultEmployees()throws EmployeePersistenceException{
+        String SQL = "SELECT * FROM public.\"Employee\" ";
+        List<Employee> lemp = null;
+        int idEmployeeCreate;
+        
+        try {
+            if (c == null || c.isClosed()) {
+                realizaConexion();
+            }
+            PreparedStatement pstmt = c.prepareStatement(SQL, ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+            ResultSet rs = pstmt.executeQuery();
+            int idEmployee;
+            rs.next();
+            if (rs.absolute(1)) {
+                lemp = new ArrayList<Employee>();
+                idEmployee = rs.getInt("IdEmployee");
+                lemp.add(consultEmployee(idEmployee));
+                idEmployeeCreate = idEmployee;
+                while (rs.next()) {
+                    idEmployee = rs.getInt("IdEmployee");
+                    if (idEmployee != idEmployeeCreate) {
+                        lemp.add(consultEmployee(idEmployee));
+                        idEmployeeCreate = idEmployee;
+                    }
+                }
+                /* c.close(); */
+                pstmt.close();
+                rs.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return lemp;
     }
 }

@@ -43,7 +43,7 @@ public class EmployeeAPIController {
     }
     
     @RequestMapping(method = RequestMethod.POST , path = "/createEmployee")
-    public ResponseEntity<?> setMenu(@RequestBody Employee emp){
+    public ResponseEntity<?> createEmployee(@RequestBody Employee emp){
         try {
             Boolean b = esi.addUser(emp);
             return new ResponseEntity<>(b, HttpStatus.ACCEPTED);
