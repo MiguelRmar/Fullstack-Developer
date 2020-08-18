@@ -1,0 +1,33 @@
+<form>
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Nombres </label>
+                    <input type="text" class="form-control" (keyup)="validacionCampos()" name="fullname" [(ngModel)]="employeeSelected.fullname">
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Cargo </label>
+                    <input type="text" class="form-control" (keyup)="validacionCampos()" name="position" [(ngModel)]="employeeSelected.position">
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Identificacion </label>
+                    <input type="text" class="form-control" (keyup)="validacionCampos()" name="identificacion" [(ngModel)]="employeeSelected.identificacion">
+                </div>
+            </div>
+
+
+            <div class="col-md-12">
+                    <button type="button" class="btn btn-success" [ngClass]="{
+              'button-dis': !boton}" (click)="guardar()"><span>Guardar</span></button>
+                </div>
+            </div>
+        </div>
+    </form>
